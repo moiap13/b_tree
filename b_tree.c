@@ -99,15 +99,17 @@ int place(Page* pg, Element* cell)
 
 	if (pg->nb_values == 2*pg->order)
 	{
+		int i_element_up = pg->order+1;
+
 		move(pg, pos);
 		add_nb_value(pg);
 
-		cell = pg->tab[pg->order+1];
-		cell->pg = new_page(2);
+		*cell = pg->tab[i_element_up];
+		cell->pg = new_page(pg->order);
 
-		for (int i = pg->nb_values - (pg->order + 1); i > 0; ++i)
+		for (int i = pg->nb_values - i_element_up; i > 0; ++i)
 		{
-			cell->pg.tab[i] = pg->tab[order+1+i];
+			cell->pg->tab[i] = pg->tab[i_element_up+i];
 		}
 	}
 	else

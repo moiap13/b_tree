@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 	cell2->t_state = OCCUPED;
 	cell2->value = 2;
 
-	place(pg, cell2);
+	int hello = place(pg, cell2);
 	// move(pg, 2);
 	// pg->tab[2].value = 2;
 
