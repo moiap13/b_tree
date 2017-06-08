@@ -34,5 +34,38 @@ Page* new_page(int order)
 		exit(0);
 	}
 
+	for (int i = 0; i < 2*pg->order+2; i++)
+	{
+		pg->tab[i].t_state = EMPTY;
+	}
+
+	pg->tab[0].t_state = DISABLED;
+	pg->tab[5].t_state = DISABLED;
+
+	return pg;
+}
+
+int position(Page* pg, int key)
+{
+	for (int i = 1; i <= 2*pg->order; i++)
+	{
+		if (pg->tab[i].value > key)
+		{
+			return i;
+		}
+
+		if (pg->tab[i].t_state == EMPTY)
+		{
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+Page* insert(Page* b_tree, int key)
+{
+	Page* pg;
+	//
 	return pg;
 }

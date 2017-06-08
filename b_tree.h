@@ -19,8 +19,11 @@
 #include <stdbool.h>
 #include <math.h>
 
+typedef enum state {DISABLED,OCCUPED,EMPTY} state;
+
 typedef struct Element
 {
+	state t_state;
 	int value;
 	struct Page* pg;
 } Element;
