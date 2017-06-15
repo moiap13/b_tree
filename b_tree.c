@@ -148,11 +148,14 @@ int place(Page* pg, Element* cell)
 Page* insert_cell(Page* b_tree, Element* cell, int depth)
 {
 	int pos = position(b_tree, cell->value);
-	int i_return_place;
+	int i_return_place, depth_2;
+	bool b_test = false;
 
 	if (b_tree->tab[pos-1].pg && pos != -1)
-	{
-		b_tree = insert_cell(b_tree->tab[pos-1].pg, cell, depth++);
+	{	
+		depth_2 = depth + 1;
+		b_tree->tab[pos-1].pg = insert_cell(b_tree->tab[pos-1].pg, cell, depth_2);
+		b_test = true;
 	}
 	else
 	{
@@ -161,16 +164,37 @@ Page* insert_cell(Page* b_tree, Element* cell, int depth)
 
 	if (cell->pg)
 	{
+/*
+		if (depth < depth_2 || depth == 0)
+		{
+			if(b_tree->nb_values 
+			if(b_tree->nb_values > b_tree->order * 2)
+			{
+				Page* pg = new_page(b_tree->order);
+				pg->tab[0].pg = b_tree;
+				place(pg, cell);
+				return pg;
+			}
+			else
+			{
+				place(b_tree, cell);
+			}
+		}
+*/
 		if (depth == 0)
 		{
-			Page* pg = new_page(b_tree->order);
-			pg->tab[0].pg = b_tree;
-			place(pg, cell);
-			return pg;
-		}
-		else
-		{
-			insert_cell(b_tree->tab[pos-1].pg, cell, depth--);
+			if(b_tree->nb_values 
+			if(b_tree->nb_values > b_tree->order * 2)
+			{
+				Page* pg = new_page(b_tree->order);
+				pg->tab[0].pg = b_tree;
+				place(pg, cell);
+				return pg;
+			}
+			else
+			{
+				place(b_tree, cell);
+			}
 		}
 	}
 

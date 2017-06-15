@@ -24,6 +24,8 @@ int main(int argc, char** argv)
 	pg = insert(pg, 5);
 	pg = insert(pg, 6);
 	pg = insert(pg, -1);
+	pg = insert(pg, 7);
+	pg = insert(pg, 8);
 /*
 	pg->tab[1].t_state = OCCUPED;
 	pg->tab[2].t_state = OCCUPED;
