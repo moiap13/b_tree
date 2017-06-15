@@ -14,8 +14,15 @@
 
 int main(int argc, char** argv)
 {
+
 	Page* pg = new_page(2);
 
+	insert(pg, 2);
+	insert(pg, 3);
+	insert(pg, 4);
+	insert(pg, 1);
+	insert(pg, 5);
+/*
 	pg->tab[1].t_state = OCCUPED;
 	pg->tab[2].t_state = OCCUPED;
 	pg->tab[3].t_state = OCCUPED;
@@ -27,18 +34,42 @@ int main(int argc, char** argv)
 	pg->tab[4].value = 9;
 
 	pg->nb_values = 4;
-
+*/
 	// for (int i = 1; i <= pg->order*2; i++)
 	// {
 	// 	printf("%d\n", pg->tab[i].value);
 	// }
 	// printf("/////\n");
 
-	Element* cell2 = malloc(sizeof(Element));
-	cell2->t_state = OCCUPED;
-	cell2->value = 2;
+	// Element* cell2 = malloc(sizeof(Element));
+	// cell2->t_state = OCCUPED;
+	// cell2->value = 2;
 
-	int hello = place(pg, cell2);
+	// int hello = place(pg, cell2);
+	
+	// //Element* cell2 = malloc(sizeof(Element));
+	// //cell2->t_state = OCCUPED;
+	// cell2->value = 3;
+
+	// hello = place(pg, cell2);	
+
+	// //Element* cell2 = malloc(sizeof(Element));
+	// //cell2->t_state = OCCUPED;
+	// cell2->value = 1;
+
+	// hello = place(pg, cell2);
+
+	// cell2->value = 1;
+
+	// hello = place(pg, cell2);
+
+	// cell2->value = 4;
+
+	// hello = place(pg, cell2);
+
+	// cell2->value = 5;
+
+	// hello = place(pg, cell2);
 	// move(pg, 2);
 	// pg->tab[2].value = 2;
 
@@ -62,7 +93,7 @@ int main(int argc, char** argv)
 		}
 	}*/
 	
-	printf("%d\n", position(pg, 3));
+	//printf("%d\n", position(pg, 3));
 
 	return 0;
 }

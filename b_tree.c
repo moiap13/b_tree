@@ -74,6 +74,8 @@ void move(Page* pg, int pos)
 	{
 		pg->tab[i + 1] = pg->tab[i];
 	}
+
+	pg->tab[2*pg->order+1].t_state = DISABLED;
 }
 
 void add_nb_value(Page* pg)
@@ -90,31 +92,41 @@ int place(Page* pg, Element* cell)
 		return 0;
 	}
 
-	if (pg->tab[pos].t_state == EMPTY)
+	if (pg->tab[pos].t_state == OCCUPED) 
 	{
+		add_nb_value(pg);
+		move(pg, pos);
 		pg->tab[pos] = *cell;
+	}
 
+	if (pg->tab[pos].t_state == EMPTY)
+	{	
+		add_nb_value(pg);
+		pg->tab[pos] = *cell;
 		return 1;
 	}
 
-	if (pg->nb_values == 2*pg->order)
+	if (pos == -1)
 	{
-		int i_element_up = pg->order+1;
-
-		move(pg, pos);
+		pg->tab[2*pg->order+1] = *cell;
 		add_nb_value(pg);
+	}
+
+	if (pg->nb_values > 2*pg->order)
+	{
+		
+		int i_element_up = pg->order+1;
 
 		*cell = pg->tab[i_element_up];
 		cell->pg = new_page(pg->order);
 
-		for (int i = pg->nb_values - i_element_up; i > 0; ++i)
+		for (int i = pg->nb_values - i_element_up; i > 0; i--)
 		{
 			cell->pg->tab[i] = pg->tab[i_element_up+i];
 		}
-	}
-	else
-	{
-		move(pg, pos);
+
+		pg->nb_values = pg->order;
+		return 1;
 	}
 
 	return 0;
@@ -123,6 +135,23 @@ int place(Page* pg, Element* cell)
 Page* insert(Page* b_tree, int key)
 {
 	Page* pg;
+	Element* cell = malloc(sizeof(Element));
+
+	if(cell == NULL)
+	{
+		printf("malloc element failed\n");
+	}
+
+	if(b_tree == NULL)
+	{
+		printf("Page null\n");
+	}
+
+	cell->t_state = OCCUPED;
+	cell->value = key;
+
+	int test = place(b_tree, cell);
+
 	//
 	return pg;
 }
