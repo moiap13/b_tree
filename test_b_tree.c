@@ -17,11 +17,13 @@ int main(int argc, char** argv)
 
 	Page* pg = new_page(2);
 
-	insert(pg, 2);
-	insert(pg, 3);
-	insert(pg, 4);
-	insert(pg, 1);
-	insert(pg, 5);
+	pg = insert(pg, 2);
+	pg = insert(pg, 3);
+	pg = insert(pg, 4);
+	pg = insert(pg, 1);
+	pg = insert(pg, 5);
+	pg = insert(pg, 6);
+	pg = insert(pg, -1);
 /*
 	pg->tab[1].t_state = OCCUPED;
 	pg->tab[2].t_state = OCCUPED;

@@ -47,7 +47,7 @@ Page* new_page(int order)
 
 int position(Page* pg, int key)
 {
-	for (int i = 1; i <= 2*pg->order; i++)
+	for (int i = 1; i <= pg->order * 2; i++)
 	{
 		if (pg->tab[i].value == key)
 		{
@@ -124,12 +124,57 @@ int place(Page* pg, Element* cell)
 		{
 			cell->pg->tab[i] = pg->tab[i_element_up+i];
 		}
+		cell->pg->nb_values = pg->nb_values - i_element_up;
+
+		Element* cell_null = malloc(sizeof(Element));
+		cell_null->t_state = EMPTY;
+		cell_null->pg = NULL;
+
+		for (int i = i_element_up; i < pg->nb_values; ++i)
+		{
+			pg->tab[i] = *cell_null;
+		}
+
+		cell_null->t_state = DISABLED;
+		pg->tab[pg->nb_values] = *cell_null;
 
 		pg->nb_values = pg->order;
 		return 1;
 	}
 
 	return 0;
+}
+
+Page* insert_cell(Page* b_tree, Element* cell, int depth)
+{
+	int pos = position(b_tree, cell->value);
+	int i_return_place;
+
+	if (b_tree->tab[pos-1].pg && pos != -1)
+	{
+		b_tree = insert_cell(b_tree->tab[pos-1].pg, cell, depth++);
+	}
+	else
+	{
+		i_return_place = place(b_tree, cell);
+	}
+
+	if (cell->pg)
+	{
+		if (depth == 0)
+		{
+			Page* pg = new_page(b_tree->order);
+			pg->tab[0].pg = b_tree;
+			place(pg, cell);
+			return pg;
+		}
+		else
+		{
+			insert_cell(b_tree->tab[pos-1].pg, cell, depth--);
+		}
+	}
+
+	return b_tree;
 }
 
 Page* insert(Page* b_tree, int key)
@@ -150,7 +195,7 @@ Page* insert(Page* b_tree, int key)
 	cell->t_state = OCCUPED;
 	cell->value = key;
 
-	int test = place(b_tree, cell);
+	pg = insert_cell(b_tree, cell, 0);
 
 	//
 	return pg;
