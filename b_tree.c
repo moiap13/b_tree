@@ -189,7 +189,7 @@ Page* insert_cell(Page* b_tree, Element* cell, int depth)
 			if(i_return_place == 2 || i_return_place == 0)
 				cell->pg = NULL;
 		}
-
+	}
 	return b_tree;
 }
 
@@ -223,4 +223,18 @@ Page* insert(Page* b_tree, int key)
 
 	//
 	return pg;
+}
+
+void display_RGD(Page *b_tree)
+{
+	if(b_tree->tab[0].pg)
+		display_RGD(b_tree->tab[0].pg);
+
+	for(int i=1; i <= b_tree->nb_values; i++)
+	{
+		printf("%d\n", b_tree->tab[i].value);
+
+		if(b_tree->tab[i].pg)
+			display_RGD(b_tree->tab[i].pg);
+	}
 }

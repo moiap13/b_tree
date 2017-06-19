@@ -36,5 +36,7 @@ typedef struct Page
 } Page;
 
 Page* new_page(int order);
+//Page* insert(Page* b_tree, int key)
+void display_RGD(Page *b_tree);
 
 #endif

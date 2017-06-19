@@ -40,6 +40,8 @@ int main(int argc, char** argv)
 	pg = insert(pg, 30);
 	pg = insert(pg, 190);
 	pg = insert(pg, 555);
+
+	display_RGD(pg);
 /*
 	pg->tab[1].t_state = OCCUPED;
 	pg->tab[2].t_state = OCCUPED;
