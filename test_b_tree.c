@@ -16,6 +16,7 @@ int main(int argc, char** argv)
 {
 
 	Page* pg = new_page(2);
+	Page* pg_2 = new_page(2);
 
 	pg = insert(pg, 2);
 	pg = insert(pg, 3);
@@ -26,6 +27,19 @@ int main(int argc, char** argv)
 	pg = insert(pg, -1);
 	pg = insert(pg, 7);
 	pg = insert(pg, 8);
+	pg = insert(pg, -2);
+	pg = insert(pg, -3);
+	pg = insert(pg, -10);
+	pg = insert(pg, 70);
+	pg = insert(pg, 80);
+	pg = insert(pg, -20);
+	pg = insert(pg, -30);
+	pg = insert(pg, 90);
+	pg_2 = pg->tab[1].pg;
+	pg = insert(pg, 20);
+	pg = insert(pg, 30);
+	pg = insert(pg, 190);
+	pg = insert(pg, 555);
 /*
 	pg->tab[1].t_state = OCCUPED;
 	pg->tab[2].t_state = OCCUPED;

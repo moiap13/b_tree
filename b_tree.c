@@ -103,7 +103,7 @@ int place(Page* pg, Element* cell)
 	{	
 		add_nb_value(pg);
 		pg->tab[pos] = *cell;
-		return 1;
+		return 2;
 	}
 
 	if (pos == -1)
@@ -114,10 +114,18 @@ int place(Page* pg, Element* cell)
 
 	if (pg->nb_values > 2*pg->order)
 	{
-		
+		Element *cell_2;
 		int i_element_up = pg->order+1;
 
 		*cell = pg->tab[i_element_up];
+
+		if(cell->pg)
+		{
+			cell_2 = malloc(sizeof(Element));
+			cell_2 = cell;
+			cell_2->t_state = DISABLED;
+		}		
+			
 		cell->pg = new_page(pg->order);
 
 		for (int i = pg->nb_values - i_element_up; i > 0; i--)
@@ -125,6 +133,9 @@ int place(Page* pg, Element* cell)
 			cell->pg->tab[i] = pg->tab[i_element_up+i];
 		}
 		cell->pg->nb_values = pg->nb_values - i_element_up;
+		
+		if(cell_2)
+			cell->pg->tab[0] = *cell_2;
 
 		Element* cell_null = malloc(sizeof(Element));
 		cell_null->t_state = EMPTY;
@@ -138,6 +149,8 @@ int place(Page* pg, Element* cell)
 		cell_null->t_state = DISABLED;
 		pg->tab[pg->nb_values] = *cell_null;
 
+		
+
 		pg->nb_values = pg->order;
 		return 1;
 	}
@@ -150,9 +163,14 @@ Page* insert_cell(Page* b_tree, Element* cell, int depth)
 	int pos = position(b_tree, cell->value);
 	int i_return_place, depth_2;
 	bool b_test = false;
+	
+	if(pos == -1)
+		pos = b_tree->order*2+1;
 
-	if (b_tree->tab[pos-1].pg && pos != -1)
+	if (b_tree->tab[pos-1].pg)
 	{	
+		
+
 		depth_2 = depth + 1;
 		b_tree->tab[pos-1].pg = insert_cell(b_tree->tab[pos-1].pg, cell, depth_2);
 		b_test = true;
@@ -164,39 +182,13 @@ Page* insert_cell(Page* b_tree, Element* cell, int depth)
 
 	if (cell->pg)
 	{
-/*
-		if (depth < depth_2 || depth == 0)
+		if(i_return_place != 1)
 		{
-			if(b_tree->nb_values 
-			if(b_tree->nb_values > b_tree->order * 2)
-			{
-				Page* pg = new_page(b_tree->order);
-				pg->tab[0].pg = b_tree;
-				place(pg, cell);
-				return pg;
-			}
-			else
-			{
-				place(b_tree, cell);
-			}
+			i_return_place = place(b_tree, cell);
+			
+			if(i_return_place == 2 || i_return_place == 0)
+				cell->pg = NULL;
 		}
-*/
-		if (depth == 0)
-		{
-			if(b_tree->nb_values 
-			if(b_tree->nb_values > b_tree->order * 2)
-			{
-				Page* pg = new_page(b_tree->order);
-				pg->tab[0].pg = b_tree;
-				place(pg, cell);
-				return pg;
-			}
-			else
-			{
-				place(b_tree, cell);
-			}
-		}
-	}
 
 	return b_tree;
 }
@@ -220,6 +212,14 @@ Page* insert(Page* b_tree, int key)
 	cell->value = key;
 
 	pg = insert_cell(b_tree, cell, 0);
+
+	if(cell->pg)
+	{
+		Page* new_racine = new_page(b_tree->order);
+		new_racine->tab[0].pg = b_tree;
+		place(new_racine, cell);
+		return new_racine;
+	}
 
 	//
 	return pg;
